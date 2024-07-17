@@ -45,7 +45,7 @@ export default function UserInfoCard({ userId }: UserInfoCardProps) {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
-            <Image src="/work.png" alt="" width={16} height={16}></Image>
+            <Image src="/link.png" alt="" width={16} height={16}></Image>
             <Link
               href="https://chan-portfolio.vercel.app"
               className="text-blue-500 font-medium"
