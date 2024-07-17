@@ -15,6 +15,72 @@ export default function UserMediaCard({ userId }: UserMediaCardProps) {
           See all
         </Link>
       </div>
+      <div className="flex justify-between gap-4  flex-wrap">
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+        <div className="relative w-1/5 h-24">
+          <Image
+            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            alt={""}
+            fill
+            className="object-cover rounded-md"
+          ></Image>
+        </div>
+      </div>
     </div>
   );
 }
