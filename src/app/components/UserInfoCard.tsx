@@ -16,7 +16,9 @@ export default function UserInfoCard({ userId }: UserInfoCardProps) {
       </div>
       <div className="flex flex-col gap-4 text-gray-500">
         <div className="flex items-center gap-2">
-          <span className="text-xl text-black">Charles Capper</span>
+          <span className="text-xl text-black font-semibold">
+            Charles Capper
+          </span>
           <span className="text-sm">@scamper</span>
         </div>
         <p>
@@ -38,9 +40,30 @@ export default function UserInfoCard({ userId }: UserInfoCardProps) {
         <div className="flex items-center gap-2">
           <Image src="/work.png" alt="" width={16} height={16}></Image>
           <span className="">
-            Works at<b>House</b>
+            Works at <b>House</b>
           </span>
         </div>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2">
+            <Image src="/work.png" alt="" width={16} height={16}></Image>
+            <Link
+              href="https://chan-portfolio.vercel.app"
+              className="text-blue-500 font-medium"
+            >
+              chan-portfolio
+            </Link>
+          </div>
+          <div className="flex gap-2">
+            <Image src="/work.png" alt="" width={16} height={16}></Image>
+            <span className="">Joined November 2024</span>
+          </div>
+        </div>
+        <button className="bg-blue-500 p-2 rounded-md text-white text-sm">
+          Following
+        </button>
+        <span className="self-end text-red-500 text-xs cursor-pointer">
+          Block User
+        </span>
       </div>
     </div>
   );
