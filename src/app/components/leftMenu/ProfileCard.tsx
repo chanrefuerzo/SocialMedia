@@ -1,18 +1,40 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
 
-export default function ProfileCard() {
+const ProfileCard = async () => {
+
+  const { userId } = auth()
+  
+  if (!userId) return null
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId
+    },
+    include: {
+      _count: {
+        select: {
+          followers:true
+        }
+      }
+    }
+  })
+
+  console.log(user)
+  if (!user) return null
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-sm flex flex-col gap-6">
       <div className="h-20 relative ">
         <Image
-          src="https://images.pexels.com/photos/27140162/pexels-photo-27140162/free-photo-of-a-bride-is-holding-her-bouquet-in-her-hand.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          src={user.cover || "/noCover.png"}
           alt=""
           fill
           className="rounded-md object-cover"
         />
         <Image
-          src="https://images.pexels.com/photos/17945201/pexels-photo-17945201/free-photo-of-young-man-reading-a-book-on-the-balcony.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          src={user.avatar || "/noAvatar.png"}
           alt=""
           width={48}
           height={48}
@@ -21,10 +43,10 @@ export default function ProfileCard() {
       </div>
       <div className="flex flex-col  items-center gap-2 ">
         <span className="flex justify-center mt-2 font-semibold text-black text-lg">
-          Edward Gabriel May
+         {(user.name && user.surname) ? user.name + " " + user.surname : user.username }
         </span>
 
-        <span className="">500 followers</span>
+        <span className="">{user._count.followers} followers</span>
         <button className="bg-blue-500 text-white text-xs p-2 rounded-md ">
           My Profile
         </button>
@@ -32,3 +54,5 @@ export default function ProfileCard() {
     </div>
   );
 }
+
+export default ProfileCard

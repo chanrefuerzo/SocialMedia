@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import ProfileCard from "./ProfileCard";
 import Link from "next/link";
-import Advertisement from "./Advertisement";
+import Advertisement from "../Advertisement";
 
 export default function LeftMenu({ type }: { type: "home" | "profile" }) {
   return (

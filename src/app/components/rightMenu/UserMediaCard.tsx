@@ -1,12 +1,11 @@
+import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type UserMediaCardProps = {
-  userId: string;
-};
 
-export default function UserMediaCard({ userId }: UserMediaCardProps) {
+
+export default function UserMediaCard({ user }: {user: User}) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-sm flex flex-col gap-4">
       <div className="flex justify-between items-center font-medium">
