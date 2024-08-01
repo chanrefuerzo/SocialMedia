@@ -1,11 +1,23 @@
+import prisma from "@/lib/client";
 import { User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+export default async function UserMediaCard({ user }: { user: User }) {
+  const postWithMedia = await prisma.post.findMany({
+    where: {
+      userId: user.id,
+      img: {
+        not: null,
+      },
+    },
+    take: 8,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-
-export default function UserMediaCard({ user }: {user: User}) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-sm flex flex-col gap-4">
       <div className="flex justify-between items-center font-medium">
@@ -15,70 +27,18 @@ export default function UserMediaCard({ user }: {user: User}) {
         </Link>
       </div>
       <div className="flex justify-between gap-4  flex-wrap">
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
-        <div className="relative w-1/5 h-24">
-          <Image
-            src="https://images.pexels.com/photos/17499608/pexels-photo-17499608/free-photo-of-view-of-the-castle-on-bled-island-on-lake-bled-in-slovenia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt={""}
-            fill
-            className="object-cover rounded-md"
-          ></Image>
-        </div>
+        {postWithMedia.length
+          ? postWithMedia.map((post) => (
+              <div className="relative w-1/5 h-24" key={post.id}>
+                <Image
+                  src={post.img!}
+                  alt={""}
+                  fill
+                  className="object-cover rounded-md"
+                ></Image>
+              </div>
+            ))
+          : "no media found"}
       </div>
     </div>
   );
