@@ -153,54 +153,54 @@ export const declineFollowRequest = async (userId: string) => {
   }
 };
 
-export const updateProfile = async (
-  prevState: { success: boolean; error: boolean },
-  payload: { formData: FormData; cover: string }
-) => {
-  const { formData, cover } = payload;
-  const fields = Object.fromEntries(formData);
+// export const updateProfile = async (
+//   prevState: { success: boolean; error: boolean },
+//   payload: { formData: FormData; cover: string }
+// ) => {
+//   const { formData, cover } = payload;
+//   const fields = Object.fromEntries(formData);
 
-  const filteredFields = Object.fromEntries(
-    Object.entries(fields).filter(([_, value]) => value !== "")
-  );
+//   const filteredFields = Object.fromEntries(
+//     Object.entries(fields).filter(([_, value]) => value !== "")
+//   );
 
-  const Profile = z.object({
-    cover: z.string().optional(),
-    name: z.string().max(60).optional(),
-    surname: z.string().max(60).optional(),
-    description: z.string().max(255).optional(),
-    city: z.string().max(60).optional(),
-    school: z.string().max(60).optional(),
-    work: z.string().max(60).optional(),
-    website: z.string().max(60).optional(),
-  });
+//   const Profile = z.object({
+//     cover: z.string().optional(),
+//     name: z.string().max(60).optional(),
+//     surname: z.string().max(60).optional(),
+//     description: z.string().max(255).optional(),
+//     city: z.string().max(60).optional(),
+//     school: z.string().max(60).optional(),
+//     work: z.string().max(60).optional(),
+//     website: z.string().max(60).optional(),
+//   });
 
-  const validatedFields = Profile.safeParse({ cover, ...filteredFields });
+//   const validatedFields = Profile.safeParse({ cover, ...filteredFields });
 
-  if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten().fieldErrors);
-    return { success: false, error: true };
-  }
+//   if (!validatedFields.success) {
+//     console.log(validatedFields.error.flatten().fieldErrors);
+//     return { success: false, error: true };
+//   }
 
-  const { userId } = auth();
+//   const { userId } = auth();
 
-  if (!userId) {
-    return { success: false, error: true };
-  }
+//   if (!userId) {
+//     return { success: false, error: true };
+//   }
 
-  try {
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: validatedFields.data,
-    });
-    return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
-    return { success: false, error: true };
-  }
-};
+//   try {
+//     await prisma.user.update({
+//       where: {
+//         id: userId,
+//       },
+//       data: validatedFields.data,
+//     });
+//     return { success: true, error: false };
+//   } catch (err) {
+//     console.log(err);
+//     return { success: false, error: true };
+//   }
+// };
 
 export const switchLike = async (postId: number) => {
   const { userId } = auth();
@@ -306,4 +306,9 @@ export const deletePost = async (postId: number) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const updateProfile = async (formData: FormData) => {
+  const fields = Object.fromEntries(formData);
+  console.log(fields);
 };
