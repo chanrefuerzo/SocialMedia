@@ -1,8 +1,26 @@
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import FriendRequestList from "./FriendRequestList";
 
-export default function FriendRequest() {
+export default async function FriendRequest() {
+  const { userId } = auth();
+
+  if (!userId) return null;
+
+  const request = await prisma.followRequest.findMany({
+    where: {
+      receiverId: userId,
+    },
+    include: {
+      sender: true,
+    },
+  });
+
+  if (request.length === 0) return null;
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-sm flex flex-col">
       <div className="flex justify-between items-center font-medium">
@@ -11,90 +29,7 @@ export default function FriendRequest() {
           See all
         </Link>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className=" flex items-center  gap-4">
-          <Image
-            src="https://images.pexels.com/photos/20881517/pexels-photo-20881517/free-photo-of-a-woman-sitting-in-a-room.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            width={40}
-            height={40}
-            className=" rounded-full w-10 h-10 object-cover"
-          />
-          <span className="font-semibold">Rey Aleonar</span>
-        </div>
-        <div className="flex gap-3 justify-end">
-          <Image
-            src="/accept.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-          <Image
-            src="/reject.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-        </div>
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className=" flex items-center  gap-4">
-          <Image
-            src="https://images.pexels.com/photos/20881517/pexels-photo-20881517/free-photo-of-a-woman-sitting-in-a-room.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            width={40}
-            height={40}
-            className=" rounded-full w-10 h-10 object-cover"
-          />
-          <span className="font-semibold">Anya Lou</span>
-        </div>
-        <div className="flex gap-3 justify-end">
-          <Image
-            src="/accept.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-          <Image
-            src="/reject.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-        </div>
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className=" flex items-center  gap-4">
-          <Image
-            src="https://images.pexels.com/photos/20881517/pexels-photo-20881517/free-photo-of-a-woman-sitting-in-a-room.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            width={40}
-            height={40}
-            className=" rounded-full w-10 h-10 object-cover"
-          />
-          <span className="font-semibold">Louella Catillosa</span>
-        </div>
-        <div className="flex gap-3 justify-end">
-          <Image
-            src="/accept.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-          <Image
-            src="/reject.png"
-            alt=""
-            width={20}
-            height={20}
-            className=" cursor-pointer"
-          />
-        </div>
-      </div>
+      <FriendRequestList request={request} />
     </div>
   );
 }
