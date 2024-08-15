@@ -56,7 +56,7 @@ export default function updateUser({ user }: { user: User }) {
                   type="text"
                   placeholder={user.name || "Chan"}
                   className="ring-1 ring-gray-300 p-[13px] rounded-md text-sm"
-                  name="firstname"
+                  name="name"
                 />
               </div>
 
