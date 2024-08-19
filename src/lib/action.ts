@@ -259,13 +259,17 @@ export const deletePost = async (postId: number) => {
   }
 };
 
-export const updateProfile = async (formData: FormData) => {
+export const updateProfile = async (
+  prevState: { success: boolean; error: boolean },
+  payload: { formData: FormData; cover: string }
+) => {
+  const { formData, cover } = payload;
   const fields = Object.fromEntries(formData);
-  console.log(fields);
 
   const filteredFields = Object.fromEntries(
     Object.entries(fields).filter(([_, value]) => value !== "")
   );
+
   const Profile = z.object({
     cover: z.string().optional(),
     name: z.string().max(60).optional(),
@@ -277,17 +281,17 @@ export const updateProfile = async (formData: FormData) => {
     website: z.string().max(60).optional(),
   });
 
-  const validatedFields = Profile.safeParse(filteredFields);
+  const validatedFields = Profile.safeParse({ cover, ...filteredFields });
 
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
-    return "error";
+    return { success: false, error: true };
   }
 
   const { userId } = auth();
 
   if (!userId) {
-    return "err";
+    return { success: false, error: true };
   }
 
   try {
@@ -297,7 +301,9 @@ export const updateProfile = async (formData: FormData) => {
       },
       data: validatedFields.data,
     });
-  } catch (error) {
-    console.log(error);
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
   }
 };
