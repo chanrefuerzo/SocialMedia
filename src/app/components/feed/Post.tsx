@@ -1,8 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import Comments from "./Comments";
+import { Post as PostType, User } from "@prisma/client";
 
-export default function Post() {
+type FeedPostType = PostType & { user: User } & {
+  likes: [{ userId: string }];
+} & {
+  _count: { comments: number };
+};
+
+export default function Post({ post }: { post: FeedPostType }) {
   return (
     <div className="flex flex-col gap-4">
       {/* User */}
@@ -10,36 +17,36 @@ export default function Post() {
         {/* Avatar & Name */}
         <div className="flex gap-4 items-center">
           <Image
-            src="https://images.pexels.com/photos/20881517/pexels-photo-20881517/free-photo-of-a-woman-sitting-in-a-room.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+            src={post.user.avatar || "/noAvatar.png"}
             alt=""
             width={40}
             height={40}
             className=" rounded-full w-10 h-10"
           />
-          <span className="font-medium"> John Doe</span>
+          <span className="font-medium">
+            {" "}
+            {post.user.name && post.user.username
+              ? post.user.name + " " + post.user.surname
+              : post.user.username}{" "}
+          </span>
         </div>
         <Image src="/more.png" alt="" width={16} height={16} className="" />
       </div>
       {/* Description */}
       <div className="flex flex-col gap-4">
         {/* Caption */}
-        <div className="">
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it
-          </p>
-        </div>
+        <div className="">{post.desc}</div>
         {/* Image  */}
-        <div className="w-full min-h-96 relative ">
-          <Image
-            src="https://images.pexels.com/photos/15487855/pexels-photo-15487855/free-photo-of-yogurt-with-blackberries-in-disposable-cup.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-            alt=""
-            fill
-            className="object-cover rounded-md"
-          />
-        </div>
+        {post.img && (
+          <div className="w-full min-h-96 relative ">
+            <Image
+              src={post.img}
+              alt=""
+              fill
+              className="object-cover rounded-md"
+            />
+          </div>
+        )}
       </div>
       {/* Interaction */}
       <div className="flex items-center justify-between text-sm my-4">

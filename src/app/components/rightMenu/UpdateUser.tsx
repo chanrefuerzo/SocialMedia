@@ -6,6 +6,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React, { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
+import UpdateButton from "./UpdateButton";
 
 export default function updateUser({ user }: { user: User }) {
   const [open, setOpen] = useState(false);
@@ -44,9 +45,7 @@ export default function updateUser({ user }: { user: User }) {
             <div className="mt-4 text-xs text-gray-500">
               Use the navbar profile to change the avatar or username
             </div>
-
             {/* CoverPicture */}
-
             <CldUploadWidget
               uploadPreset="Sosyal"
               onSuccess={(result) => setCover(result.info)}
@@ -74,7 +73,6 @@ export default function updateUser({ user }: { user: User }) {
                 );
               }}
             </CldUploadWidget>
-
             {/* Wrapper */}
             <div className="flex flex-wrap justify-between gap-2 xl:gap-4">
               {/* Inputs */}
@@ -168,17 +166,13 @@ export default function updateUser({ user }: { user: User }) {
                 />
               </div>
             </div>
-
-            <button className="bg-blue-500 p-2 mt-2 rounded-md text-white">
-              Update
-            </button>
+            <UpdateButton />
             {state.success && (
               <span className="text-green-500">Profile is updated!</span>
             )}
             {state.error && (
               <span className="text-red-500">Something went wrong</span>
             )}
-
             <div
               className="absolute text-lg right-2 top-3 cursor-pointer "
               onClick={handleClose}
