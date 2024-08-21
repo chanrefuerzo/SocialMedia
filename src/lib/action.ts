@@ -153,7 +153,40 @@ export const declineFollowRequest = async (userId: string) => {
   }
 };
 
-export const switchLike = async (postId: number) => {
+// export const switchLike = async (postId: number) => {
+//   const { userId } = auth();
+
+//   if (!userId) throw new Error("User is not authenticated!");
+
+//   try {
+//     const existingLike = await prisma.like.findFirst({
+//       where: {
+//         postId,
+//         userId,
+//       },
+//     });
+
+//     if (existingLike) {
+//       await prisma.like.delete({
+//         where: {
+//           id: existingLike.id,
+//         },
+//       });
+//     } else {
+//       await prisma.like.create({
+//         data: {
+//           postId,
+//           userId,
+//         },
+//       });
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error("Something went wrong");
+//   }
+// };
+
+export const swtichLike = async (postId: number) => {
   const { userId } = auth();
 
   if (!userId) throw new Error("User is not authenticated!");
@@ -175,14 +208,14 @@ export const switchLike = async (postId: number) => {
     } else {
       await prisma.like.create({
         data: {
-          postId,
           userId,
+          postId,
         },
       });
     }
-  } catch (err) {
-    console.log(err);
-    throw new Error("Something went wrong");
+  } catch (error) {
+    console.log(error);
+    throw new Error("something went wrong");
   }
 };
 

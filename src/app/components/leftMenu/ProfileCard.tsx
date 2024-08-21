@@ -1,29 +1,29 @@
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const ProfileCard = async () => {
+  const { userId } = auth();
 
-  const { userId } = auth()
-  
-  if (!userId) return null
+  if (!userId) return null;
 
   const user = await prisma.user.findFirst({
     where: {
-      id: userId
+      id: userId,
     },
     include: {
       _count: {
         select: {
-          followers:true
-        }
-      }
-    }
-  })
+          followers: true,
+        },
+      },
+    },
+  });
 
-  console.log(user)
-  if (!user) return null
+  console.log(user);
+  if (!user) return null;
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-sm flex flex-col gap-6">
       <div className="h-20 relative ">
@@ -43,16 +43,18 @@ const ProfileCard = async () => {
       </div>
       <div className="flex flex-col  items-center gap-2 ">
         <span className="flex justify-center mt-2 font-semibold text-black text-lg">
-         {(user.name && user.surname) ? user.name + " " + user.surname : user.username }
+          {user.name && user.surname
+            ? user.name + " " + user.surname
+            : user.username}
         </span>
 
         <span className="">{user._count.followers} followers</span>
         <button className="bg-blue-500 text-white text-xs p-2 rounded-md ">
-          My Profile
+          <Link href={`/profile/${user.username}`}>My Profile</Link>
         </button>
       </div>
     </div>
   );
-}
+};
 
-export default ProfileCard
+export default ProfileCard;

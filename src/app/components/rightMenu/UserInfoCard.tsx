@@ -68,7 +68,7 @@ export default async function UserInfoCard({ user }: { user: User }) {
           </span>
           <span className="text-sm">{user.username}</span>
         </div>
-        <p>{user.description && <p>{user.description}</p>}</p>
+        <p>{user.description && user.description}</p>
         {user.city && (
           <div className="flex items-center gap-2">
             <Image src="/map.png" alt="" width={16} height={16}></Image>
