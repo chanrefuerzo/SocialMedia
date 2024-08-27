@@ -270,16 +270,15 @@ export const addPost = async (formData: FormData, img: string) => {
   const desc = formData.get("desc") as string;
 
   const Desc = z.string().min(1).max(255);
-
   const validatedDesc = Desc.safeParse(desc);
 
   if (!validatedDesc.success) {
-    //TODO
+    // todo send error message
     console.log("description is not valid");
     return;
   }
-  const { userId } = auth();
 
+  const { userId } = auth();
   if (!userId) throw new Error("User is not authenticated!");
 
   try {
@@ -292,8 +291,9 @@ export const addPost = async (formData: FormData, img: string) => {
     });
 
     revalidatePath("/");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong!");
   }
 };
 
