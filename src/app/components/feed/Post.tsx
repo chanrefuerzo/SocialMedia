@@ -56,7 +56,7 @@ export default function Post({ post }: { post: FeedPostType }) {
         commentNumber={post._count.comments}
       />
       <div className="">
-        <Comments />
+        <Comments postId={post.id} />
       </div>
     </div>
   );
