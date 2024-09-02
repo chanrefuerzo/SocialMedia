@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import Comments from "./Comments";
 import { Post as PostType, User } from "@prisma/client";
 import PostInteraction from "./PostInteraction";
+import PostInfo from "./PostInfo";
+import { auth } from "@clerk/nextjs/server";
 
 type FeedPostType = PostType & { user: User } & {
   likes: [{ userId: string }];
@@ -10,6 +12,7 @@ type FeedPostType = PostType & { user: User } & {
   _count: { comments: number };
 };
 
+const { userId } = auth();
 export default function Post({ post }: { post: FeedPostType }) {
   return (
     <div className="flex flex-col gap-4">
@@ -31,7 +34,7 @@ export default function Post({ post }: { post: FeedPostType }) {
               : post.user.username}{" "}
           </span>
         </div>
-        <Image src="/more.png" alt="" width={16} height={16} className="" />
+        {userId === post.user.id && <PostInfo postId={post.id} />}{" "}
       </div>
       {/* Description */}
       <div className="flex flex-col gap-4">
@@ -50,14 +53,18 @@ export default function Post({ post }: { post: FeedPostType }) {
         )}
       </div>
       {/* Interaction */}
-      <PostInteraction
-        postId={post.id}
-        likes={post.likes.map((like) => like.userId)}
-        commentNumber={post._count.comments}
-      />
-      <div className="">
-        <Comments postId={post.id} />
-      </div>
+      <Suspense fallback="loading">
+        <PostInteraction
+          postId={post.id}
+          likes={post.likes.map((like) => like.userId)}
+          commentNumber={post._count.comments}
+        />
+      </Suspense>
+      <Suspense fallback="loading">
+        <div className="">
+          <Comments postId={post.id} />
+        </div>
+      </Suspense>
     </div>
   );
 }
